@@ -1,10 +1,13 @@
 package config
 
 import (
+	"net/url"
+
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gfile"
+	"github.com/gogf/gf/v2/os/gview"
 	"github.com/gogf/gf/v2/text/gstr"
 )
 
@@ -12,7 +15,18 @@ var (
 	PORT         = 8080                                // 端口
 	AssetPrefix  = "https://oaistatic-cdn.closeai.biz" // 资源前缀
 	CacheBuildId = "__VtdGuo2T55cu1fqCkoX"             // 缓存版本号
+	BuildId      = "__VtdGuo2T55cu1fqCkoX"             // 线上版本号
 	gclient      = g.Client()                          // http客户端
+	Ja3Proxy     *url.URL                              // ja3代理
+	ArkoseUrl    = "/v2/"
+
+	envScriptTpl = `
+	<script src="/list.js"></script>
+	<script>
+	window.__arkoseUrl="{{.ArkoseUrl}}";
+	window.__assetPrefix="{{.AssetPrefix}}";
+	</script>
+	`
 )
 
 func init() {
@@ -30,12 +44,25 @@ func init() {
 	}
 	g.Log().Info(ctx, "ASSET_PREFIX:", AssetPrefix)
 
+	// 读取ja3代理
+	ja3Proxy := g.Cfg().MustGetWithEnv(ctx, "JA3_PROXY").String()
+	if ja3Proxy == "" {
+		panic("JA3_PROXY is required")
+	}
+	u, err := url.Parse(ja3Proxy)
+	if err != nil {
+		panic(err)
+	}
+	Ja3Proxy = u
+	g.Log().Info(ctx, "JA3_PROXY:", Ja3Proxy.String())
+
 	// 检查版本号并同步资源
 	cacheBuildId := CheckVersion(ctx, AssetPrefix)
 	if cacheBuildId != "" {
 		CacheBuildId = cacheBuildId
 	}
 	g.Log().Info(ctx, "CacheBuildId:", CacheBuildId)
+
 }
 
 // 检查版本号并同步资源
@@ -86,4 +113,16 @@ func CheckVersion(ctx g.Ctx, assetPrefix string) (CacheBuildId string) {
 	}
 
 	return
+}
+
+func GetEnvScript(ctx g.Ctx) string {
+	script, err := gview.ParseContent(ctx, envScriptTpl, g.Map{
+		"ArkoseUrl":   ArkoseUrl,
+		"AssetPrefix": AssetPrefix,
+	})
+	if err != nil {
+		g.Log().Error(ctx, "GetEnvScript Error: ", err)
+		return ""
+	}
+	return script
 }
