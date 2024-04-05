@@ -2,6 +2,7 @@ package api
 
 import (
 	"cockroachai/config"
+	"cockroachai/utils"
 	"crypto/tls"
 	"net/http"
 	"net/http/httputil"
@@ -28,10 +29,14 @@ func ProxyApi(r *ghttp.Request) {
 			InsecureSkipVerify: true,
 		},
 	}
+
 	proxy.Rewrite = func(proxyRequest *httputil.ProxyRequest) {
 		proxyRequest.SetURL(u)
 	}
-
+	header := r.Request.Header
+	header.Set("Origin", "https://chat.openai.com")
+	header.Set("Referer", "https://chat.openai.com/")
+	utils.HeaderModify(&r.Request.Header)
 	proxy.ServeHTTP(r.Response.RawWriter(), r.Request)
 
 }

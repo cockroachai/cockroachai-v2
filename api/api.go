@@ -8,6 +8,8 @@ func init() {
 	group.GET("/", Index)
 	group.GET("/api/auth/session", ProxyApi)
 	group.ALL("/backend-anon/*any", ProxyApi)
+	group.ALL("/public-api/*any", ProxyApi)
+
 }
 
 // Init initializes the api module.
