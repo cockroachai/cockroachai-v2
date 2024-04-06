@@ -319,11 +319,10 @@
 
                           <span class="c6616f49d password js-required" aria-hidden="true"></span>
                         </button>
-                      </div>
-
 
                     </div>
-
+                     {{if .error}} <span class="ulp-input-error-icon" role="img" aria-label="错误"></span>
+                    {{.error}}</span>{{end}}
 
                   </div>
                 </div>
@@ -338,9 +337,9 @@
 
                 </div>
               </form>
-              <div class="c812f57e2 c7c173cb0">
-                <!-- <span>或</span> -->
-              </div>
+              <!-- <div class="c812f57e2 c7c173cb0">
+                <span>或</span>
+              </div> -->
             </div>
           </div>
         </div>

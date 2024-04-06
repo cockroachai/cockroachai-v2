@@ -21,3 +21,4 @@
 go.work
 main
 resource/template/dynamic_templates/
+config/session.json

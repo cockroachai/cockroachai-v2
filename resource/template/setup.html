@@ -12,16 +12,18 @@
         <form action="" method="post">
             <div class="form-group">
                 <label for="refreshCookie">Refresh Cookie</label>
-                <textarea class="form-control" id="refreshCookie" rows="3"></textarea>
+                <textarea class="form-control" id="refreshCookie" name="refreshCookie" rows="3"></textarea>
             </div>
             <div class="form-group">
                 <label for="adminPassword">管理员密码</label>
-                <input type="password" class="form-control" id="adminPassword">
+                <input type="password" class="form-control" id="adminPassword" name="adminPassword">
                 <input type="checkbox" id="showPassword"> 显示密码
             </div>
             <button type="submit" class="btn btn-primary">确认</button>
             <button type="reset" class="btn btn-secondary">清空</button>
         </form>
+        <div id="result" class="mt-4">{{.result}}</div>
+
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>

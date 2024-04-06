@@ -4,6 +4,7 @@ import (
 	"cockroachai/api"
 	"cockroachai/arkose"
 	backendanon "cockroachai/backend-anon"
+	backendapi "cockroachai/backend-api"
 	"cockroachai/config"
 	"cockroachai/next"
 
@@ -21,6 +22,8 @@ func main() {
 	backendanon.Init(ctx)
 	// 加载next模块
 	next.Init(ctx)
+	// 加载backend-api模块
+	backendapi.Init(ctx)
 
 	// 启动HTTP服务
 	s := g.Server()

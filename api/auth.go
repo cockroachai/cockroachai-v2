@@ -1,7 +1,10 @@
 package api
 
 import (
+	"cockroachai/config"
+
 	"github.com/gogf/gf/v2/encoding/gjson"
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 )
 
@@ -62,4 +65,23 @@ func AuthSigninAuth0(r *ghttp.Request) {
 	  }
 	`
 	r.Response.WriteJson(gjson.New(jsonStr))
+}
+
+// /api/auth/session
+func AuthSession(r *ghttp.Request) {
+	ctx := r.Context()
+	userToken := r.Session.MustGet("userToken").String()
+	if userToken == "" {
+		r.Response.WriteJsonExit(g.Map{})
+	} else {
+		// 获取session缓存
+		sessionVar := config.SessionCache.MustGet(ctx, "session")
+		r.Response.WriteJsonExit(sessionVar)
+	}
+}
+
+// /auth/logout
+func AuthLogout(r *ghttp.Request) {
+	r.Session.RemoveAll()
+	r.Response.RedirectTo("/")
 }

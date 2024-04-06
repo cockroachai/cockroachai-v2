@@ -4,11 +4,15 @@ import (
 	"net/url"
 
 	"github.com/gogf/gf/v2/encoding/gjson"
+	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/gclient"
+	"github.com/gogf/gf/v2/os/gcache"
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/gview"
 	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/gogf/gf/v2/util/guid"
 )
 
 var (
@@ -16,7 +20,7 @@ var (
 	AssetPrefix  = "https://oaistatic-cdn.closeai.biz" // 资源前缀
 	CacheBuildId = "__VtdGuo2T55cu1fqCkoX"             // 缓存版本号
 	BuildId      = "__VtdGuo2T55cu1fqCkoX"             // 线上版本号
-	gclient      = g.Client()                          // http客户端
+	Gclient      = g.Client()                          // http客户端
 	Ja3Proxy     *url.URL                              // ja3代理
 	ArkoseUrl    = "/v2/"
 
@@ -27,7 +31,10 @@ var (
 	window.__assetPrefix="{{.AssetPrefix}}";
 	</script>
 	`
-	PowerBy = `<a href="https://github.com/cockroachai/" target="_blank">Powered By cockroachai</a>`
+	PowerBy       = `<a href="https://github.com/cockroachai/" target="_blank">Powered By cockroachai</a>`
+	ProxyClient   *gclient.Client
+	AdminPassword = guid.S()
+	SessionCache  = gcache.New()
 )
 
 func init() {
@@ -57,11 +64,19 @@ func init() {
 	Ja3Proxy = u
 	g.Log().Info(ctx, "JA3_PROXY:", Ja3Proxy.String())
 
+	// 读取powerBy
 	powerBy := g.Cfg().MustGetWithEnv(ctx, "POWER_BY").String()
 	if powerBy != "" {
 		PowerBy = powerBy
 	}
 	g.Log().Info(ctx, "POWER_BY:", PowerBy)
+
+	// 读取adminPassword
+	adminPassword := g.Cfg().MustGetWithEnv(ctx, "ADMIN_PASSWORD").String()
+	if adminPassword != "" {
+		AdminPassword = adminPassword
+	}
+	g.Log().Info(ctx, "ADMIN_PASSWORD:", AdminPassword)
 
 	// 检查版本号并同步资源
 	cacheBuildId := CheckVersion(ctx, AssetPrefix)
@@ -76,13 +91,26 @@ func init() {
 		BuildId = buildId
 	}
 	g.Log().Info(ctx, "BuildId:", BuildId)
+	ProxyClient = g.Client().Proxy(Ja3Proxy.String()).SetBrowserMode(true).SetHeaderMap(g.MapStrStr{
+		"Origin":     "https://chat.openai.com",
+		"Referer":    "https://chat.openai.com/",
+		"Host":       "chat.openai.com",
+		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+	})
+
+	// 加载session
+	_, err = LoadSession(ctx)
+	if err != nil {
+		g.Log().Error(ctx, "LoadSession Error: ", err)
+	}
+	g.Log().Info(ctx, "LoadSession Success")
 
 }
 
 // 检查版本号并同步资源
 func CheckVersion(ctx g.Ctx, assetPrefix string) (CacheBuildId string) {
 	// 读取 assetPrefix/version
-	versionVar := gclient.GetVar(ctx, assetPrefix+"/version.json")
+	versionVar := Gclient.GetVar(ctx, assetPrefix+"/version.json")
 	CacheBuildId = gjson.New(versionVar).Get("cacheBuildId").String()
 	g.Log().Infof(ctx, "Get config From %s ,CacheBuildId: %s", AssetPrefix, CacheBuildId)
 	if CacheBuildId == "" {
@@ -91,7 +119,7 @@ func CheckVersion(ctx g.Ctx, assetPrefix string) (CacheBuildId string) {
 	// 读取buildDate目录索引
 	indexUrl := assetPrefix + "/template/" + CacheBuildId + "/index.txt"
 	g.Log().Info(ctx, "Get files From ", indexUrl)
-	buildDateVar := gclient.GetVar(ctx, indexUrl).String()
+	buildDateVar := Gclient.GetVar(ctx, indexUrl).String()
 	if buildDateVar == "" {
 		return ""
 	}
@@ -107,7 +135,7 @@ func CheckVersion(ctx g.Ctx, assetPrefix string) (CacheBuildId string) {
 		if !gfile.Exists("./resource/template/dynamic_templates/" + CacheBuildId + "/" + v) {
 			g.Log().Infof(ctx, "Download %s", v)
 			// 下载文件
-			res, err := gclient.Get(ctx, assetPrefix+"/template/"+CacheBuildId+"/"+v)
+			res, err := Gclient.Get(ctx, assetPrefix+"/template/"+CacheBuildId+"/"+v)
 			if err != nil {
 				g.Log().Error(ctx, "Download  Error: ", v, err)
 				return ""
@@ -143,9 +171,58 @@ func GetEnvScript(ctx g.Ctx) string {
 
 // 获取版本号
 func GetBuildId(ctx g.Ctx) string {
-	resVar := gclient.GetVar(ctx, "https://tcr9i.xyhelper.cn/ping")
+	resVar := Gclient.GetVar(ctx, "https://tcr9i.xyhelper.cn/ping")
 	// gjson.New(resVar).Dump()
 	buildId := gjson.New(resVar).Get("buildId").String()
 	return buildId
 
+}
+
+// 刷新账号信息
+func RefreshSession(ctx g.Ctx, refreshCookie string) (session *gjson.Json, err error) {
+	res, err := ProxyClient.SetCookie("__Secure-next-auth.session-token", refreshCookie).Get(ctx, "https://chat.openai.com/api/auth/session")
+	if err != nil {
+		g.Log().Error(ctx, "RefreshUserToken Error: ", err)
+		return
+	}
+	defer res.Close()
+	if res.StatusCode != 200 {
+		err = gerror.Newf("RefreshUserToken Error: %d", res.StatusCode)
+		g.Log().Error(ctx, err)
+		return
+	}
+	refreshCookie = res.GetCookie("__Secure-next-auth.session-token")
+	// g.Log().Info(ctx, "RefreshUserToken", refreshCookie)
+	if refreshCookie == "" {
+		err = gerror.New("无效的refreshCookie")
+		g.Log().Error(ctx, err)
+		return
+	}
+	session = gjson.New(res.ReadAll())
+	session.Set("refreshCookie", refreshCookie)
+	// 将session写入 config/session.json
+	err = gfile.PutContents("./config/session.json", session.String())
+	// 将session写入缓存
+	SessionCache.Set(ctx, "session", session, 0)
+
+	return
+}
+
+// 加载session
+func LoadSession(ctx g.Ctx) (session *gjson.Json, err error) {
+	sessionStr := gfile.GetContents("./config/session.json")
+	if sessionStr == "" {
+		err = gerror.New("session.json is empty")
+		return
+	}
+	session = gjson.New(sessionStr)
+	SessionCache.Set(ctx, "session", session, 0)
+	return
+}
+
+// GetRefreshCookie 获取refreshCookie
+func GetRefreshCookie(ctx g.Ctx) (refreshCookie string) {
+	sessionVar := SessionCache.MustGet(ctx, "session")
+	refreshCookie = gjson.New(sessionVar).Get("refreshCookie").String()
+	return
 }
