@@ -27,6 +27,7 @@ var (
 	window.__assetPrefix="{{.AssetPrefix}}";
 	</script>
 	`
+	PowerBy = `<a href="https://github.com/cockroachai/" target="_blank">Powered By cockroachai</a>`
 )
 
 func init() {
@@ -55,6 +56,12 @@ func init() {
 	}
 	Ja3Proxy = u
 	g.Log().Info(ctx, "JA3_PROXY:", Ja3Proxy.String())
+
+	powerBy := g.Cfg().MustGetWithEnv(ctx, "POWER_BY").String()
+	if powerBy != "" {
+		PowerBy = powerBy
+	}
+	g.Log().Info(ctx, "POWER_BY:", PowerBy)
 
 	// 检查版本号并同步资源
 	cacheBuildId := CheckVersion(ctx, AssetPrefix)

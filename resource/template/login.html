@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="ulp-version" content="1.17.132">
+
+
+
+  <meta name="robots" content="noindex, nofollow">
+
+
+  <link rel="stylesheet" href="/ulp/react-components/1.86.8/css/main.cdn.min.css">
+  <style id="custom-styles-container">
+    body {
+      background: #ffffff;
+      font-family: ulp-font, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, sans-serif;
+    }
+
+    .c8e341991 {
+      background: #ffffff;
+    }
+
+    .c236a6fa7.c714e2bee {
+      background: #D00E17;
+    }
+
+    .c236a6fa7.ca0652c7c {
+      background: #0A8852;
+    }
+
+    .cb2dfcee4 {
+      background-color: #10a37f;
+      color: #ffffff;
+    }
+
+    .cb2dfcee4 a,
+    .cb2dfcee4 a:visited {
+      color: #ffffff;
+    }
+
+    .c0d0addad {
+      background-color: #0A8852;
+    }
+
+    .c2a083e91 {
+      background-color: #D00E17;
+    }
+
+    @supports (mask-image: url('/static/img/branding-generic/copy-icon.svg')) {
+      @supports not (-ms-ime-align: auto) {
+        .ce385ba79.ca8fa451b::before {
+          background-color: #D00E17;
+        }
+      }
+    }
+
+    .input.c90f5bb06 {
+      border-color: #D00E17;
+    }
+
+    .error-cloud {
+      background-color: #D00E17;
+    }
+
+    .error-fatal {
+      background-color: #D00E17;
+    }
+
+    .error-local {
+      background-color: #D00E17;
+    }
+
+    #alert-trigger {
+      background-color: #D00E17;
+    }
+  </style>
+  <style>
+    /* By default, hide features for javascript-disabled browsing */
+    /* We use !important to override any css with higher specificity */
+    /* It is also overriden by the styles in <noscript> in the header file */
+    .no-js {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+  </style>
+  <noscript>
+    <style>
+      /* We use !important to override the default for js enabled */
+      /* If the display should be other than block, it should be defined specifically here */
+      .js-required {
+        display: none !important;
+      }
+
+      .no-js {
+        clip: auto;
+        clip-path: none;
+        height: auto;
+        overflow: auto;
+        position: static;
+        white-space: normal;
+        width: var(--prompt-width);
+      }
+    </style>
+  </noscript>
+
+  <style>
+    @font-face {
+      font-family: "Söhne";
+      src: url("/common/fonts/soehne/soehne-buch.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Söhne";
+      src: url("/common/fonts/soehne/soehne-buch-kursiv.woff2") format("woff2");
+      font-style: italic;
+      font-weight: 400;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Söhne";
+      src: url("/common/fonts/soehne/soehne-halbfett.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Söhne";
+      src: url("/common/fonts/soehne/soehne-halbfett-kursiv.woff2") format("woff2");
+      font-style: italic;
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    :root {
+      --font-family: "Söhne", -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
+      --primary-color: #10a37f;
+      --primary-color-no-override: #10a37f;
+      --action-primary-color: #10a37f;
+      --link-color: #10a37f;
+      --input-box-shadow-depth: 1px;
+      --input-border-radius: 6px;
+      --button-border-radius: 6px;
+      --page-background-color: #ffffff;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--page-background-color);
+    }
+
+    .oai-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .oai-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 0 0;
+      flex: 0 0 auto;
+    }
+
+    .oai-header svg {
+      width: 32px;
+      height: 32px;
+      fill: #202123;
+    }
+
+    .oai-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6e6e80;
+      padding: 12px 0 24px;
+      flex: 0 0 auto;
+    }
+
+    .oai-footer a {
+      color: var(--primary-color);
+      margin: 0 10px;
+    }
+
+    ._widget-auto-layout main._widget {
+      flex: 1 0 auto;
+      min-height: 0;
+    }
+
+    main header>img:first-of-type {
+      display: none;
+    }
+
+    main>section,
+    main>section>div:first-child {
+      box-shadow: none;
+    }
+
+    main header>h1 {
+      font-weight: bold !important;
+      font-size: 32px !important;
+    }
+
+    main a {
+      font-weight: normal !important;
+    }
+
+    .ulp-alternate-action {
+      text-align: center;
+    }
+
+    button[type="submit"] {
+      font-family: var(--font-family);
+    }
+
+
+
+
+    main header>h1 {
+      margin-bottom: 0 !important;
+    }
+
+
+    main header>h1+div {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body class="_widget-auto-layout">
+  <div class="oai-wrapper" data-auth0-client-id="TdJIcbe16WoTHtN95nyywh5E4yOo6ItG">
+    <header class="oai-header">
+      <!-- <svg viewBox="140 140 520 520" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="m617.24 354a126.36 126.36 0 0 0 -10.86-103.79 127.8 127.8 0 0 0 -137.65-61.32 126.36 126.36 0 0 0 -95.31-42.49 127.81 127.81 0 0 0 -121.92 88.49 126.4 126.4 0 0 0 -84.5 61.3 127.82 127.82 0 0 0 15.72 149.86 126.36 126.36 0 0 0 10.86 103.79 127.81 127.81 0 0 0 137.65 61.32 126.36 126.36 0 0 0 95.31 42.49 127.81 127.81 0 0 0 121.96-88.54 126.4 126.4 0 0 0 84.5-61.3 127.82 127.82 0 0 0 -15.76-149.81zm-190.66 266.49a94.79 94.79 0 0 1 -60.85-22c.77-.42 2.12-1.16 3-1.7l101-58.34a16.42 16.42 0 0 0 8.3-14.37v-142.39l42.69 24.65a1.52 1.52 0 0 1 .83 1.17v117.92a95.18 95.18 0 0 1 -94.97 95.06zm-204.24-87.23a94.74 94.74 0 0 1 -11.34-63.7c.75.45 2.06 1.25 3 1.79l101 58.34a16.44 16.44 0 0 0 16.59 0l123.31-71.2v49.3a1.53 1.53 0 0 1 -.61 1.31l-102.1 58.95a95.16 95.16 0 0 1 -129.85-34.79zm-26.57-220.49a94.71 94.71 0 0 1 49.48-41.68c0 .87-.05 2.41-.05 3.48v116.68a16.41 16.41 0 0 0 8.29 14.36l123.31 71.19-42.69 24.65a1.53 1.53 0 0 1 -1.44.13l-102.11-59a95.16 95.16 0 0 1 -34.79-129.81zm350.74 81.62-123.31-71.2 42.69-24.64a1.53 1.53 0 0 1 1.44-.13l102.11 58.95a95.08 95.08 0 0 1 -14.69 171.55c0-.88 0-2.42 0-3.49v-116.68a16.4 16.4 0 0 0 -8.24-14.36zm42.49-63.95c-.75-.46-2.06-1.25-3-1.79l-101-58.34a16.46 16.46 0 0 0 -16.59 0l-123.31 71.2v-49.3a1.53 1.53 0 0 1 .61-1.31l102.1-58.9a95.07 95.07 0 0 1 141.19 98.44zm-267.11 87.87-42.7-24.65a1.52 1.52 0 0 1 -.83-1.17v-117.92a95.07 95.07 0 0 1 155.9-73c-.77.42-2.11 1.16-3 1.7l-101 58.34a16.41 16.41 0 0 0 -8.3 14.36zm23.19-50 54.92-31.72 54.92 31.7v63.42l-54.92 31.7-54.92-31.7z" />
+      </svg> -->
+    </header>
+    <main class="_widget login">
+      <section class="cc3e0ee20 _prompt-box-outer c2967d1c4">
+        <div class="c476543f4 cfee98151">
+
+
+          <div class="c28e57d17">
+            <header class="cd141dba7 cfd689eac">
+              <div title="OpenAI" id="custom-prompt-logo"
+                style="width: auto !important; height: 60px !important; position: static !important; margin: auto !important; padding: 0 !important; background-color: transparent !important; background-position: center !important; background-size: contain !important; background-repeat: no-repeat !important">
+              </div>
+
+              <!-- <img class="c815a59b2 cafb7e9ea" id="prompt-logo-center"
+                src="https://cdn.openai.com/API/images/openai-logomark.png" alt="OpenAI"> -->
+
+
+              <h1 class="c75a821d8 cf4ccfc47">输入UserToken</h1>
+
+
+              <div class="c4b06d157 c285aedab">
+
+
+
+
+              </div>
+            </header>
+
+            <div class="c49c1ba2f cffe0c5a0">
+
+
+
+
+
+              <form method="POST" class="c95cb8570 _form-login-password" data-form-primary="true">
+
+                <div class="c4e8f3baf cd402327c">
+                  <div class="cfffe57fa">
+
+
+                    <div class="input-wrapper _input-wrapper">
+                      <div class="ce385ba79 c630cc19b password ca0c3b651" data-action-text=""
+                        data-alternate-action-text="">
+                        <label class="c504b47d1 no-js cc454c27b c544a5795" for="password">
+                          UserToken
+                        </label>
+
+                        <input class="input c9396bda3 c6d2c7838" name="password" id="password" type="password" required
+                          autoComplete="current-password" autoCapitalize="none" spellCheck="false" autoFocus>
+
+                        <div class="c504b47d1 js-required cc454c27b c544a5795" data-dynamic-label-for="password"
+                          aria-hidden="true">
+                          UserToken
+                        </div>
+
+                        <button type="button" class="cea93c1fe ulp-button-icon cb8f247a6 _button-icon"
+                          data-action="toggle">
+                          <span aria-hidden="true"
+                            class="password-icon-tooltip show-password-tooltip">显示UserToken</span>
+
+                          <span aria-hidden="true"
+                            class="password-icon-tooltip hide-password-tooltip hide">隐藏UserToken</span>
+
+                          <span class="screen-reader-only password-toggle-label"
+                            data-label="show-password">显示UserToken</span>
+
+                          <span class="screen-reader-only password-toggle-label hide"
+                            data-label="hide-password">隐藏UserToken</span>
+
+                          <span class="c6616f49d password js-required" aria-hidden="true"></span>
+                        </button>
+                      </div>
+
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+
+                <div class="c45d6a94b">
+
+                  <button type="submit" name="action" value="default"
+                    class="cea93c1fe cb2dfcee4 cb8f247a6 c5d1e7708 _button-login-password"
+                    data-action-button-primary="true">继续</button>
+
+                </div>
+              </form>
+              <div class="c812f57e2 c7c173cb0">
+                <!-- <span>或</span> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </section>
+    </main>
+    <script id="client-scripts">
+      window.ulpFlags = { "allow_custom_extensions": true, "hooks": true, "rules": true, "allow_restricted_user_profile_fields": true }; !function () { var e, t, n, E, C, S, x, T, P, r, a = ((e = {}).exports = function (n, a) { var r = {}; function u(e, t) { if (e.classList) return e.classList.add(t); var n = e.className.split(" "); -1 === n.indexOf(t) && (n.push(t), e.className = n.join(" ")) } function o(e, t, n, r) { return e.addEventListener(t, n, r) } function i(e) { return "string" == typeof e } function c(e, t) { return i(e) ? a.querySelector(e) : e.querySelector(t) } function s(e, t) { if (e.classList) return e.classList.remove(t); var n = e.className.split(" "), r = n.indexOf(t); -1 !== r && (n.splice(r, 1), e.className = n.join(" ")) } function l(e, t) { return e.getAttribute(t) } function f(e, t, n) { return e.setAttribute(t, n) } var e = ["text", "number", "email", "password", "tel", "url"], t = "select,textarea," + e.map(function (e) { return 'input[type="' + e + '"]' }).join(","); return { addClass: u, toggleClass: function (e, t, n) { if (!0 === n || !1 === n) return r = e, a = t, !0 !== n ? s(r, a) : u(r, a); var r, a; if (e.classList) return e.classList.toggle(t); var o = e.className.split(" "), i = o.indexOf(t); -1 !== i ? o.splice(i, 1) : o.push(t), e.className = o.join(" ") }, hasClass: function (e, t) { return e.classList ? e.classList.contains(t) : -1 !== e.className.split(" ").indexOf(t) }, addClickListener: function (e, t) { return o(e, "click", t) }, addEventListener: o, getAttribute: l, getElementById: function (e) { return a.getElementById(e) }, getParent: function (e) { return e.parentNode }, isString: i, loadScript: function (e, t) { var n = a.createElement("script"); for (var r in t) r.startsWith("data-") ? n.dataset[r.replace("data-", "")] = t[r] : n[r] = t[r]; n.src = e, a.body.appendChild(n) }, removeScript: function (e) { a.querySelectorAll('script[src="' + e + '"]').forEach(function (e) { e.remove() }) }, poll: function (e) { var o = e.interval || 2e3, t = e.url || n.location.href, i = e.condition || function () { return !0 }, u = e.onSuccess || function () { }, c = e.onError || function () { }; return setTimeout(function r() { var a = new XMLHttpRequest; return a.open("GET", t), a.setRequestHeader("Accept", "application/json"), a.onload = function () { if (200 === a.status) { var e = "application/json" === a.getResponseHeader("Content-Type").split(";")[0] ? JSON.parse(a.responseText) : a.responseText; return i(e) ? u() : setTimeout(r, o) } if (429 !== a.status) return c({ status: a.status, responseText: a.responseText }); var t = 1e3 * Number.parseInt(a.getResponseHeader("X-RateLimit-Reset")), n = t - (new Date).getTime(); return setTimeout(r, o < n ? n : o) }, a.send() }, o) }, querySelector: c, querySelectorAll: function (e, t) { var n = i(e) ? a.querySelectorAll(e) : e.querySelectorAll(t); return Array.prototype.slice.call(n) }, removeClass: s, removeElement: function (e) { return e.remove() }, setAttribute: f, removeAttribute: function (e, t) { return e.removeAttribute(t) }, swapAttributes: function (e, t, n) { var r = l(e, t), a = l(e, n); f(e, n, r), f(e, t, a) }, setGlobalFlag: function (e, t) { r[e] = !!t }, getGlobalFlag: function (e) { return !!r[e] }, preventFormSubmit: function (e) { e.stopPropagation(), e.preventDefault() }, matchMedia: function (e) { return "function" != typeof n.matchMedia && n.matchMedia(e).matches }, dispatchEvent: function (e, t, n) { var r; "function" != typeof Event ? (r = a.createEvent("Event")).initCustomEvent(t, n, !1) : r = new Event(t, { bubbles: n }), e.dispatchEvent(r) }, timeoutPromise: function (e, a) { return new Promise(function (t, n) { var r = setTimeout(function () { n(new Error("timeoutPromise: promise timed out")) }, e); a.then(function (e) { clearTimeout(r), t(e) }, function (e) { clearTimeout(r), n(e) }) }) }, createMutationObserver: function (e) { return "undefined" == typeof MutationObserver ? null : new MutationObserver(e) }, consoleWarn: function () { (console.warn || console.log).apply(console, arguments) }, getConfigJson: function (e) { try { var t = c(e); if (!t) return null; var n = t.value; return n ? JSON.parse(n) : null } catch (e) { return null } }, getCSSVariable: function (e) { return getComputedStyle(a.documentElement).getPropertyValue(e) }, setTimeout: setTimeout, globalWindow: n, SUPPORTED_INPUT_TYPES: e, ELEMENT_TYPE_SELECTOR: t } }, e.exports)(window, document), o = { exports: function (e, t) { for (var o = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_", l = new Uint8Array(256), i = 0; i < o.length; i++)l[o.charCodeAt(i)] = i; function u(e) { var t, n = new Uint8Array(e), r = n.length, a = ""; for (t = 0; t < r; t += 3)a += o[n[t] >> 2], a += o[(3 & n[t]) << 4 | n[t + 1] >> 4], a += o[(15 & n[t + 1]) << 2 | n[t + 2] >> 6], a += o[63 & n[t + 2]]; return r % 3 == 2 ? a = a.substring(0, a.length - 1) : r % 3 == 1 && (a = a.substring(0, a.length - 2)), a } function n() { return navigator && navigator.credentials && "undefined" != typeof PublicKeyCredential } return { base64URLEncode: u, base64URLDecode: function (e) { var t, n, r, a, o, i = .75 * e.length, u = e.length, c = 0, s = new Uint8Array(i); for (t = 0; t < u; t += 4)n = l[e.charCodeAt(t)], r = l[e.charCodeAt(t + 1)], a = l[e.charCodeAt(t + 2)], o = l[e.charCodeAt(t + 3)], s[c++] = n << 2 | r >> 4, s[c++] = (15 & r) << 4 | a >> 2, s[c++] = (3 & a) << 6 | 63 & o; return s.buffer }, publicKeyCredentialToJSON: function e(t) { if (t instanceof Array) { var n = []; for (i = 0; i < t.length; i += 1)n.push(e(t[i])); return n } if (t instanceof ArrayBuffer) return u(t); if (t instanceof Object) { var r = {}; for (var a in t) r[a] = e(t[a]); return r } return t }, str2ab: function (e) { for (var t = new ArrayBuffer(e.length), n = new Uint8Array(t), r = 0, a = e.length; r < a; r++)n[r] = e.charCodeAt(r); return t }, isWebAuthnAvailable: n, isWebauthnPlatformAuthenticatorAvailableAsync: function (e) { return n() ? e(1e3, PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()) : Promise.resolve(!1) } } } }.exports(window, document); ((t = {}).exports = function (r, e, i, u, c, s, l) { e("div.ce385ba79.password").forEach(function (e) { var a, o, t = r(e, "input"), n = r(e, '[data-action="toggle"]'); i(e, (a = t, o = n, function (e) { if (e.target.classList.contains("ulp-button-icon")) { if (a.type = "password" === a.type ? "text" : "password", o) { var t = o.querySelector(".show-password-tooltip"), n = o.querySelector(".hide-password-tooltip"); t && s(t, "hide"), n && s(n, "hide") } var r = l(a); "text" === a.type ? u(r, "show") : c(r, "show") } })) }) }, t.exports)(a.querySelector, a.querySelectorAll, a.addClickListener, a.addClass, a.removeClass, a.toggleClass, a.getParent), { exports: function (e, r, a, t) { var n = e(".c03d68601"), o = e("#alert-trigger"), i = e(".c995267fa"), u = e(".cefbd729b"), c = !1; o && u && n && t(n, function (e) { var t = e.target === o, n = u.contains(e.target); return t && !c ? (r(i, "show"), void (c = !0)) : t && c || c && !n ? (a(i, "show"), void (c = !1)) : void 0 }) } }.exports(a.querySelector, a.addClass, a.removeClass, a.addClickListener), (E = "recaptcha_v2", C = "recaptcha_enterprise", S = "hcaptcha", x = "friendly_captcha", T = "arkose", P = "auth0_v2", (n = {}).exports = function (o, i, a, u, c, s) { var l = 500, f = 3, d = 0, p = a("div[data-captcha-sitekey]"), t = a("div[data-captcha-sitekey] input"); function v() { switch (b()) { case E: return window.grecaptcha; case C: return window.grecaptcha.enterprise; case S: return window.hcaptcha; case x: return window.friendlyChallenge; case T: return window.arkose; case P: return window.turnstile } } function h() { return a(function () { switch (b()) { case E: case C: return "#ulp-recaptcha"; case S: return "#ulp-hcaptcha"; case x: return "#ulp-friendly-captcha"; case T: return "#ulp-arkose"; case P: return "#ulp-auth0-v2-captcha" } }()) } function m() { return p.getAttribute("data-captcha-lang") } function b() { return p.getAttribute("data-captcha-provider") } function g() { return p.getAttribute("data-captcha-sitekey") } function w() { return a('form[data-form-primary="true"]') } function y(e) { return t.value = e } function A() { var e = v(), t = s("--ulp-captcha-widget-theme") || "light"; if (b() === x) { "dark" === t && u(a(".frc-captcha"), "dark"); var n = new e.WidgetInstance(h(), { sitekey: g(), language: m(), doneCallback: function (e) { y(e) } }) } else { var r = { sitekey: g(), theme: t, "expired-callback": function () { y(""), u(p, "ca8fa451b"), e.reset(n) }, callback: function (e) { y(e), c(p, "ca8fa451b") } }; b() === P && (r.language = m(), r.retry = "never", r["response-field"] = !1, r["error-callback"] = function (e) { return fetch("https://www.cloudflarestatus.com/api/v2/summary.json").then(function (e) { return e.json() }).then(function (e) { for (var t = 0; t < e.components.length; t++) { var n = e.components[t]; if ("Turnstile" === n.name) return "operational" === n.status } return !1 }).catch(function (e) { return !1 }).then(function (e) { e && d < f ? (y(""), u(p, "ca8fa451b"), v().reset(n), d++) : (y("BYPASS_CAPTCHA"), c(p, "ca8fa451b")) }), !0 }), n = e.render(h(), r) } } p && function () { var e = "captchaCallback_" + Math.floor(1000001 * Math.random()), t = b(), n = { async: !0, defer: !0 }, r = function (e, t, n, r) { switch (b()) { case E: return "https://www.recaptcha.net/recaptcha/api.js?render=explicit&hl=" + e + "&onload=" + t; case C: return "https://www.recaptcha.net/recaptcha/enterprise.js?render=explicit&hl=" + e + "&onload=" + t; case S: return "https://js.hcaptcha.com/1/api.js?render=explicit&hl=" + e + "&onload=" + t; case x: return "https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.14/widget.min.js"; case T: return "https://" + n + ".arkoselabs.com/v2/" + r + "/api.js"; case P: return "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=" + t } }(m(), e, p.getAttribute("data-captcha-client-subdomain"), g()); if (t === T || t === P) { n["data-callback"] = e, n.onerror = function () { if (d < f) return i(r), o(r, n), void d++; i(r), y("BYPASS_CAPTCHA") }; var a = function (e) { var t, n; t = e, n = function (e) { setTimeout(function () { t.run() }, l), e.preventDefault() }, w().addEventListener("submit", n), t.setConfig({ onCompleted: function (e) { y(e.token), w().submit() }, onError: function (e) { return fetch("https://status.arkoselabs.com/api/v2/status.json").then(function (e) { return e.json() }).then(function (e) { var t = e.status.indicator; return "none" === t }).catch(function (e) { return !1 }).then(function (e) { if (e && d < f) return t.reset(), new Promise(function (e) { setTimeout(function () { e(t.run()) }, l), d++ }); y("BYPASS_CAPTCHA"), w().removeEventListener("submit", n) }) } }) }; t === P && (a = function () { A() }), window[e] = a } else window[e] = function () { delete window[e], A() }, t === x && (u(h(), "frc-captcha"), n.onload = window[e]); o(r, n) }() }, n.exports)(a.loadScript, a.removeScript, a.querySelector, a.addClass, a.removeClass, a.getCSSVariable), ((r = {}).exports = function (r, e, a, o, i, u, c, s, n, l) { function f(e) { var t = e.target, n = u(t); t.value || l(t, "data-autofilled") ? o(n, "cb636dbea") : i(n, "cb636dbea") } function d(e) { var t = e.target; "onAutoFillStart" === e.animationName && (n(t, "data-autofilled", !0), s(e.target, "change", !0), a(t, "keyup", p, { once: !0 })) } function p(e) { var t = e.target; n(t, "data-autofilled", "") } if (r("body._simple-labels")) return e(".c504b47d1.no-js").forEach(function (e) { i(e, "no-js") }), void e(".c504b47d1.js-required").forEach(function (e) { o(e, "hide") }); e(".ce385ba79:not(.c94ee6adb):not(disabled)").forEach(function (e) { o(e, "c11d28311"); var t, n = r(e, ".input"); n.value && o(e, "cb636dbea"), a(e, "change", f), a(n, "blur", f), a(n, "animationstart", d), t = n, c(function () { t.value && s(t, "change", !0) }, 100) }) }, r.exports)(a.querySelector, a.querySelectorAll, a.addEventListener, a.addClass, a.removeClass, a.getParent, a.setTimeout, a.dispatchEvent, a.setAttribute, a.getAttribute), { exports: function (e, t, n, r, a, o) { function i(e) { var t = n("submitted"); r("submitted", !0), t ? a(e) : "apple" === o(e.target, "data-provider") && setTimeout(function () { r("submitted", !1) }, 2e3) } var u = e("form"); u && u.forEach(function (e) { t(e, "submit", i) }) } }.exports(a.querySelectorAll, a.addEventListener, a.getGlobalFlag, a.setGlobalFlag, a.preventFormSubmit, a.getAttribute), { exports: function (t, e, n) { var r = t("form._form-detect-browser-capabilities"), a = t("main.login-id"), o = t("main.signup-with-passkeys"), i = t("div#passkey-detect-browser-capabilities"); if (r || a || o || i) { var u = e.isWebAuthnAvailable(); t("#webauthn-available").value = u ? "true" : "false", t("#js-available").value = "true", navigator.brave ? navigator.brave.isBrave().then(function (e) { t("#is-brave").value = e, c() }) : c() } function c() { u ? e.isWebauthnPlatformAuthenticatorAvailableAsync(n).then(function (e) { t("#webauthn-platform-available").value = e ? "true" : "false", r && r.submit() }).catch(function (e) { t("#webauthn-platform-available").value = "false", r && r.submit() }) : (t("#webauthn-platform-available").value = "false", r && r.submit()) } } }.exports(a.querySelector, o, a.timeoutPromise), { exports: function (n, e, r, a, o, i, u, t, c) { function s(e) { var t = e.target, n = i(t); t.value ? a(n, "cb636dbea") : o(n, "cb636dbea") } function l(e) { var t = e.target, n = i(t); a(n, "focus"), d(t, n) } function f(e) { var t = e.target, n = i(t); o(n, "focus"), d(t, n) } function d(e, t) { e.value ? a(t, "cb636dbea") : o(t, "cb636dbea") } function p() { e("[id^='ulp-container-'] .ulp-field").forEach(function (e) { if (!u(e, "c11d28311")) { var t = n(e, c); t && (a(e, "c11d28311"), d(t, e), setTimeout(function () { d(t, e) }, 50), t === document.activeElement && a(e, "focus"), r(t, "change", s), r(t, "focus", l), r(t, "blur", f)) } }) } var v = e("[id^='ulp-container-']"); if (v && v.length) { var h = t(p); if (h) for (var m = 0; m < v.length; m++)h.observe(v[m], { childList: !0, subtree: !0 }); p() } } }.exports(a.querySelector, a.querySelectorAll, a.addEventListener, a.addClass, a.removeClass, a.getParent, a.hasClass, a.createMutationObserver, a.ELEMENT_TYPE_SELECTOR), { exports: function (r, i, a, o, u, c, s, t, l, f, e) { var d = !1, p = e + ',input[type="checkbox"]'; function v(e) { var t = u(e, "data-ulp-validation-function"), n = o(e); return { functionName: t, element: r(n, p), parent: n } } function h(e) { var a = [], o = []; return i(e, "[data-ulp-validation-function]").forEach(function (e) { var t = v(e), n = []; if (t.element) { if ("input" === t.element.tagName.toLowerCase()) { var r = u(t.element, "type"); "checkbox" !== r && -1 === f.indexOf(r) && n.push("Unsupported input type: " + r) } } else n.push("Could not find element"); s[t.functionName] || n.push("Could not find function with name: " + t.functionName), n.length ? o = o.concat(n) : a.push(e) }), o.length && t(o.join("\r\n")), a } function m(e, t, n) { var r = v(e), a = (0, s[r.functionName])(r.element, t, n); c(e, "ulp-validator-error", !a); var o = i(r.parent, ".ulp-validator-error"); return c(r.parent, "ulp-error", !!o.length), a } function b(t) { var n = v(t), e = (u(t, "data-ulp-validation-event-listeners") || "").replace(/\s/g, "").split(",").filter(function (e) { return !!e }); e.length && e.forEach(function (e) { a(n.element, e, function () { m(t, d, e) }) }) } function g(e, t, n) { d = !0; var r = n.filter(function (e) { return !m(e, d, "submit") }); if (r.length) { l(t); var a = v(r[0]); a.element.focus({ preventScroll: !0 }), a.parent.scrollIntoView({ behavior: "smooth" }) } else e.submit() } function n() { var t = r('form[data-form-primary="true"]'), n = h(t); 0 !== n.length && (n.forEach(function (e) { b(e) }), a(t, "submit", function (e) { g(t, e, n) })) } function w() { var e = i("[id^='ulp-container-']"); e && e.length && n() } return w(), [p, v, h, m, b, g, n, w] } }.exports(a.querySelector, a.querySelectorAll, a.addEventListener, a.getParent, a.getAttribute, a.toggleClass, a.globalWindow, a.consoleWarn, a.preventFormSubmit, a.SUPPORTED_INPUT_TYPES, a.ELEMENT_TYPE_SELECTOR) }();
+    </script>
+    <footer class="oai-footer">
+      {{ .powerBy }}
+
+    </footer>
+  </div>
+
+
+
+</body>
+
+</html>

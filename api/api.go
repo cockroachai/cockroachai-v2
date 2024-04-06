@@ -14,6 +14,8 @@ func init() {
 	group.POST("/api/auth/signin/auth0", AuthSigninAuth0)
 	group.GET("/setup", Setup)
 
+	group.GET("/login", Login)
+
 }
 
 // Init initializes the api module.

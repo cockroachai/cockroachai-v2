@@ -25,5 +25,6 @@ func main() {
 	// 启动HTTP服务
 	s := g.Server()
 	s.SetPort(config.PORT)
+	s.SetServerRoot("resource/public")
 	s.Run()
 }
