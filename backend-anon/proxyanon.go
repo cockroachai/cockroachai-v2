@@ -20,8 +20,6 @@ var (
 
 func ProxyAnno(r *ghttp.Request) {
 	ctx := r.Context()
-	path := r.RequestURI
-	g.Log().Info(ctx, "ProxyAnno:", path)
 	proxy.Transport = &http.Transport{
 		Proxy: http.ProxyURL(config.Ja3Proxy),
 		TLSClientConfig: &tls.Config{
@@ -35,6 +33,11 @@ func ProxyAnno(r *ghttp.Request) {
 	proxy.ModifyResponse = func(response *http.Response) error {
 		// 移除cookie
 		response.Header.Del("Set-Cookie")
+		if response.StatusCode >= 400 {
+			g.Log().Warning(ctx, "ProxyAnno:", response.StatusCode, response.Request.Method, response.Request.URL.String())
+		} else {
+			g.Log().Info(ctx, "ProxyAnno:", response.StatusCode, response.Request.Method, response.Request.URL.String())
+		}
 		return nil
 	}
 	header := r.Request.Header

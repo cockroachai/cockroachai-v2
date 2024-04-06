@@ -30,4 +30,7 @@ func HeaderModify(headers *http.Header) {
 	headers.Del("Cf-Access-Client-Device-Name")
 	headers.Del("Cf-Access-Client-Device-Brand")
 
+	// 一些奇怪的东西
+	headers.Del("x-middleware-prefetch")
+
 }

@@ -76,7 +76,12 @@ func AuthSession(r *ghttp.Request) {
 	} else {
 		// 获取session缓存
 		sessionVar := config.SessionCache.MustGet(ctx, "session")
-		r.Response.WriteJsonExit(sessionVar)
+		session := gjson.New(sessionVar)
+		session.Remove("refreshCookie")
+		session.Set("accessToken", userToken)
+		session.Set("user.email", "share@closeai.com")
+		session.Set("user.iname", "share")
+		r.Response.WriteJsonExit(session)
 	}
 }
 

@@ -226,3 +226,10 @@ func GetRefreshCookie(ctx g.Ctx) (refreshCookie string) {
 	refreshCookie = gjson.New(sessionVar).Get("refreshCookie").String()
 	return
 }
+
+// GetAccessToken 获取accessToken
+func GetAccessToken(ctx g.Ctx) (accessToken string) {
+	sessionVar := SessionCache.MustGet(ctx, "session")
+	accessToken = gjson.New(sessionVar).Get("accessToken").String()
+	return
+}
