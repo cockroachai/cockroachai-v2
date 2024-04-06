@@ -7,7 +7,10 @@ func init() {
 	group := s.Group("/")
 	group.GET("/", Index)
 	group.GET("/c/:convId", C)
+	group.GET("/g/:gizmoId", G)
+
 	group.GET("/gpts", Gpts)
+	group.GET("/gpts/mine", Mine)
 
 	group.GET("/api/auth/session", AuthSession)
 	group.ALL("/public-api/*any", ProxyApi)

@@ -9,17 +9,11 @@ import (
 	"io"
 	"net/http"
 	"net/http/httputil"
-	"net/url"
 	"strings"
 
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
-)
-
-var (
-	UpStream = "https://chat.openai.com"
-	u, _     = url.Parse(UpStream)
 )
 
 func ProxyNext(r *ghttp.Request) {
@@ -43,7 +37,7 @@ func ProxyNext(r *ghttp.Request) {
 	}
 
 	proxy.Rewrite = func(proxyRequest *httputil.ProxyRequest) {
-		proxyRequest.SetURL(u)
+		proxyRequest.SetURL(config.OPENAIURL)
 	}
 	proxy.ModifyResponse = func(response *http.Response) error {
 		// 移除cookie

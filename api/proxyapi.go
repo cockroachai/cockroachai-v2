@@ -6,16 +6,13 @@ import (
 	"crypto/tls"
 	"net/http"
 	"net/http/httputil"
-	"net/url"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 )
 
 var (
-	proxy    = &httputil.ReverseProxy{}
-	UpStream = "https://chat.openai.com"
-	u, _     = url.Parse(UpStream)
+	proxy = &httputil.ReverseProxy{}
 )
 
 func ProxyApi(r *ghttp.Request) {
@@ -28,7 +25,7 @@ func ProxyApi(r *ghttp.Request) {
 	}
 
 	proxy.Rewrite = func(proxyRequest *httputil.ProxyRequest) {
-		proxyRequest.SetURL(u)
+		proxyRequest.SetURL(config.OPENAIURL)
 	}
 	proxy.ModifyResponse = func(response *http.Response) error {
 		// 移除cookie

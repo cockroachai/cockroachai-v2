@@ -23,6 +23,7 @@ var (
 	Gclient      = g.Client()                          // http客户端
 	Ja3Proxy     *url.URL                              // ja3代理
 	ArkoseUrl    = "/v2/"
+	OPENAIURL, _ = url.Parse("https://chat.openai.com")
 
 	envScriptTpl = `
 	<script src="/list.js"></script>
