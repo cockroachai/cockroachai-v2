@@ -13,6 +13,7 @@ func init() {
 	group := s.Group("/")
 	group.ALL("/backend-api/*any", ProxyBackendApi)
 	group.GET("/backend-api/prompt_library/", PromptLibrary)
+	group.POST("/backend-api/lat/r", LatR)
 }
 
 func Init(ctx g.Ctx) {
@@ -41,4 +42,11 @@ func PromptLibrary(r *ghttp.Request) {
 	// res.RawDump()
 	r.Response.Status = res.StatusCode
 	r.Response.Write(res.ReadAll())
+}
+
+// /backend-api/lat/r
+func LatR(r *ghttp.Request) {
+	r.Response.WriteJson(g.Map{
+		"status": "success",
+	})
 }
