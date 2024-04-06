@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>表单页面</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-4">蟑螂账号管理</h1>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="refreshCookie">Refresh Cookie</label>
+                <textarea class="form-control" id="refreshCookie" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="adminPassword">管理员密码</label>
+                <input type="password" class="form-control" id="adminPassword">
+                <input type="checkbox" id="showPassword"> 显示密码
+            </div>
+            <button type="submit" class="btn btn-primary">确认</button>
+            <button type="reset" class="btn btn-secondary">清空</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#showPassword').change(function() {
+                if($(this).is(':checked')) {
+                    $('#adminPassword').attr('type', 'text');
+                } else {
+                    $('#adminPassword').attr('type', 'password');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

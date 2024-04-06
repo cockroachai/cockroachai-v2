@@ -63,6 +63,13 @@ func init() {
 	}
 	g.Log().Info(ctx, "CacheBuildId:", CacheBuildId)
 
+	// 获取线上版本号
+	buildId := GetBuildId(ctx)
+	if buildId != "" {
+		BuildId = buildId
+	}
+	g.Log().Info(ctx, "BuildId:", BuildId)
+
 }
 
 // 检查版本号并同步资源
@@ -125,4 +132,13 @@ func GetEnvScript(ctx g.Ctx) string {
 		return ""
 	}
 	return script
+}
+
+// 获取版本号
+func GetBuildId(ctx g.Ctx) string {
+	resVar := gclient.GetVar(ctx, "https://tcr9i.xyhelper.cn/ping")
+	// gjson.New(resVar).Dump()
+	buildId := gjson.New(resVar).Get("buildId").String()
+	return buildId
+
 }

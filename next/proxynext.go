@@ -1,4 +1,4 @@
-package api
+package next
 
 import (
 	"cockroachai/config"
@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"strings"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -18,10 +19,13 @@ var (
 	u, _     = url.Parse(UpStream)
 )
 
-func ProxyApi(r *ghttp.Request) {
+func ProxyNext(r *ghttp.Request) {
 	ctx := r.Context()
-	path := r.RequestURI
-	g.Log().Info(ctx, "ProxyApi:", path)
+	path := r.Request.URL.Path
+	g.Log().Info(ctx, "ProxyNext:", path)
+	// 替换path中的版本号
+	path = strings.Replace(path, config.CacheBuildId, config.BuildId, 1)
+	r.Request.URL.Path = path
 	proxy.Transport = &http.Transport{
 		Proxy: http.ProxyURL(config.Ja3Proxy),
 		TLSClientConfig: &tls.Config{

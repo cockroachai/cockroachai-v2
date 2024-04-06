@@ -1,4 +1,4 @@
-package api
+package backendanon
 
 import (
 	"cockroachai/config"
@@ -18,10 +18,10 @@ var (
 	u, _     = url.Parse(UpStream)
 )
 
-func ProxyApi(r *ghttp.Request) {
+func ProxyAnno(r *ghttp.Request) {
 	ctx := r.Context()
 	path := r.RequestURI
-	g.Log().Info(ctx, "ProxyApi:", path)
+	g.Log().Info(ctx, "ProxyAnno:", path)
 	proxy.Transport = &http.Transport{
 		Proxy: http.ProxyURL(config.Ja3Proxy),
 		TLSClientConfig: &tls.Config{
