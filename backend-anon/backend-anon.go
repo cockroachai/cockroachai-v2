@@ -8,14 +8,7 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 )
 
-var (
-	ProxyClient = gclient.New().Proxy(config.Ja3Proxy.String()).SetBrowserMode(true).SetHeaderMap(g.MapStrStr{
-		"Origin":     "https://chat.openai.com",
-		"Referer":    "https://chat.openai.com/",
-		"Host":       "chat.openai.com",
-		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-	})
-)
+var ()
 
 func init() {
 
@@ -36,6 +29,13 @@ func PromptLibrary(r *ghttp.Request) {
 	ctx := r.Context()
 	limit := r.Get("limit").String()
 	offset := r.Get("offset").String()
+	ProxyClient := gclient.New().Proxy(config.Ja3Proxy.String()).SetBrowserMode(true).SetHeaderMap(g.MapStrStr{
+		"Origin":       "https://chat.openai.com",
+		"Referer":      "https://chat.openai.com/",
+		"Host":         "chat.openai.com",
+		"User-Agent":   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+		"OAI-Language": r.Header.Get("OAI-Language"),
+	})
 	res, err := ProxyClient.Get(ctx, "https://chat.openai.com/backend-anon/prompt_library/", g.Map{"limit": limit, "offset": offset})
 	if err != nil {
 		g.Log().Error(ctx, err)
