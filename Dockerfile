@@ -1,5 +1,5 @@
-# 使用官方 Golang 镜像作为基础镜像
-FROM golang as builder
+# 使用官方 Golang Alpine 镜像作为基础镜像
+FROM golang:alpine as builder
 
 # 安装 ca-certificates，这样你的应用就可以访问带有 SSL 证书的站点了
 RUN apk update && apk add --no-cache ca-certificates tzdata
