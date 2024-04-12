@@ -23,15 +23,25 @@ func Init(ctx g.Ctx) {
 // /backend-api/prompt_library/
 func PromptLibrary(r *ghttp.Request) {
 	ctx := r.Context()
+	userToken := r.Session.MustGet("userToken").String()
+	if userToken == "" {
+		r.Response.Status = 401
+		r.Response.WriteJson(g.Map{"detail": "Unauthorized"})
+	}
 	limit := r.Get("limit").String()
 	offset := r.Get("offset").String()
-	ProxyClient := gclient.New().Proxy(config.Ja3Proxy.String()).SetBrowserMode(true).SetHeaderMap(g.MapStrStr{
+	headerMap := g.MapStrStr{
 		"Origin":       "https://chat.openai.com",
 		"Referer":      "https://chat.openai.com/",
 		"Host":         "chat.openai.com",
 		"User-Agent":   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
 		"OAI-Language": r.Header.Get("OAI-Language"),
-	})
+	}
+	accessToken := config.GetAccessToken(ctx)
+	if accessToken != "" {
+		headerMap["Authorization"] = "Bearer " + accessToken
+	}
+	ProxyClient := gclient.New().Proxy(config.Ja3Proxy.String()).SetBrowserMode(true).SetHeaderMap(headerMap)
 	res, err := ProxyClient.Get(ctx, "https://chat.openai.com/backend-api/prompt_library/", g.Map{"limit": limit, "offset": offset})
 	if err != nil {
 		g.Log().Error(ctx, err)

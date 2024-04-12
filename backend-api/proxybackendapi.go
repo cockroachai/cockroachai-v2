@@ -71,7 +71,7 @@ func ProxyBackendApi(r *ghttp.Request) {
 	header := r.Request.Header
 	header.Set("Origin", "https://chat.openai.com")
 	header.Set("Referer", "https://chat.openai.com/")
-	header.Del("Cookie")
+	// header.Del("Cookie")
 	header.Del("Accept-Encoding")
 	accessToken := config.GetAccessToken(ctx)
 	if accessToken != "" {
