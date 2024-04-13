@@ -3,39 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>表单页面</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            text-align: center;
+            padding-top: 100px;
+            margin: 0;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 300px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        .login-container h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-field {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .password-container {
+            position: relative;
+        }
+
+        .field-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-70%);
+            cursor: pointer;
+        }
+        input[type='text'], input[type='password'], textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            padding-right: 40px; /* 留出眼睛图标的空间 */
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .btn {
+            background-color: #0A8852;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding-top: 50px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center mt-4">蟑螂账号管理</h1>
+    <div class="login-container">
+        <h2>蟑螂账号管理</h2>
         <form action="" method="post">
-            <div class="form-group">
-                <label for="refreshCookie">Refresh Cookie</label>
-                <textarea class="form-control" id="refreshCookie" name="refreshCookie" rows="3"></textarea>
+            <div class="form-field">
+                <textarea id="refreshCookie" name="refreshCookie" placeholder="Refresh Cookie" rows="3"></textarea>
             </div>
-            <div class="form-group">
-                <label for="adminPassword">管理员密码</label>
-                <input type="password" class="form-control" id="adminPassword" name="adminPassword">
-                <input type="checkbox" id="showPassword"> 显示密码
+            <div class="password-container">
+                <input type="password" id="adminPassword" name="adminPassword" placeholder="管理员密码">
+                <span id="eyeIcon" toggle="#adminPassword" class="far fa-eye-slash field-icon toggle-password"></span>
             </div>
-            <button type="submit" class="btn btn-primary">确认</button>
-            <button type="reset" class="btn btn-secondary">清空</button>
+            <button type="submit" class="btn">确认</button>
+            <button type="reset" class="btn">清空</button>
         </form>
         <div id="result" class="mt-4">{{.result}}</div>
-
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
     <script>
-        $(document).ready(function() {
-            $('#showPassword').change(function() {
-                if($(this).is(':checked')) {
-                    $('#adminPassword').attr('type', 'text');
-                } else {
-                    $('#adminPassword').attr('type', 'password');
-                }
-            });
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById('adminPassword');
+            var eyeIcon = document.getElementById('eyeIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            var eyeIcon = document.getElementById('eyeIcon');
+            eyeIcon.addEventListener('click', togglePasswordVisibility);
         });
     </script>
 </body>
