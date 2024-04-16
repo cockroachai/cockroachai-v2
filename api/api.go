@@ -2,6 +2,8 @@ package api
 
 import (
 	"net/http"
+	"net/http/httputil"
+	"net/url"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 )
@@ -28,8 +30,8 @@ func init() {
 	group.GET("/login", Login)
 	group.POST("/login", LoginPost)
 	group.GET("/auth/logout", AuthLogout)
-	group.POST("/api/accounts/data_export", NotFound) // 禁用导出
-	group.POST("/api/payments/checkout", NotFound)    // 禁用支付
+	group.POST("/backend-api/accounts/data_export", NotFound) // 禁用导出
+	group.POST("/backend-api/payments/checkout", NotFound)    // 禁用支付
 
 }
 
