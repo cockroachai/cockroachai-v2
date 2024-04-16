@@ -31,7 +31,7 @@ func ProxyBackendApi(r *ghttp.Request) {
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true,
 		},
-	}
+		ForceAttemptHTTP2: true,	}
 
 	proxy.Rewrite = func(proxyRequest *httputil.ProxyRequest) {
 		proxyRequest.SetURL(config.OPENAIURL)
