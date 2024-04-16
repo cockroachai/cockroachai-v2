@@ -31,6 +31,9 @@ COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 # 从 builder 镜像中复制应用到当前镜像中
 COPY --from=builder /app/main /app/main
 
+# 从 builder 镜像中复制应用到当前镜像中
+COPY --from=builder /app/resource /app/resource
+
 # 指定环境变量 TZ，你可以在运行 Docker 容器时通过 -e 参数来覆盖这个值
 ENV TZ=Asia/Shanghai
 
