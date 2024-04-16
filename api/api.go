@@ -24,7 +24,14 @@ func init() {
 	group.GET("/login", Login)
 	group.POST("/login", LoginPost)
 	group.GET("/auth/logout", AuthLogout)
+	group.POST("/api/accounts/data_export", NotFound) // 禁用导出
+	group.POST("/api/payments/checkout", NotFound)    // 禁用支付
 
+}
+
+// NotFound 404
+func NotFound(r *ghttp.Request) {
+	r.Response.WriteStatus(http.StatusNotFound)
 }
 
 // Init initializes the api module.
