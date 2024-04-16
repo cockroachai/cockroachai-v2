@@ -6,6 +6,7 @@ import (
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/google/uuid"
 )
 
 func Index(r *ghttp.Request) {
@@ -59,6 +60,7 @@ func Index(r *ghttp.Request) {
 	propsJson.Set("query.model", model)
 	propsJson.Set("buildId", config.BuildId)
 	propsJson.Set("assetPrefix", config.AssetPrefix)
+	r.Cookie.Set("oai-did", uuid.New().String())
 
 	r.Response.WriteTpl("dynamic_templates/"+config.CacheBuildId+"/chat.html", g.Map{
 		"props":       propsJson,
