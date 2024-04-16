@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  cockroachai-v2:
+    image: lyy0709/cockroachai-v2:latest
+    ports:
+      - "9000:9315" #左侧为暴露的端口
+    volumes:
+      - ./config.yaml:/config.yaml
+      - ./resource:/app/resource

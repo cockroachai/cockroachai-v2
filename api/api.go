@@ -1,6 +1,10 @@
 package api
 
-import "github.com/gogf/gf/v2/frame/g"
+import (
+	"net/http"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/ghttp"
+)
 
 func init() {
 	s := g.Server()
@@ -24,7 +28,15 @@ func init() {
 	group.GET("/login", Login)
 	group.POST("/login", LoginPost)
 	group.GET("/auth/logout", AuthLogout)
+	group.ALL("/public-api/referral/invites/*any", NotFound)  //禁用邀请
+	group.POST("/backend-api/accounts/data_export", NotFound) // 禁用导出
+	group.POST("/backend-api/payments/checkout", NotFound)    // 禁用支付
 
+}
+
+// NotFound 404
+func NotFound(r *ghttp.Request) {
+	r.Response.WriteStatus(http.StatusNotFound)
 }
 
 // Init initializes the api module.

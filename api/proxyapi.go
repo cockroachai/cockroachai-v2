@@ -40,6 +40,10 @@ func ProxyApi(r *ghttp.Request) {
 	header := r.Request.Header
 	header.Set("Origin", "https://chat.openai.com")
 	header.Set("Referer", "https://chat.openai.com/")
+	accessToken := config.GetAccessToken(ctx)
+	if accessToken != "" {
+		header.Set("Authorization", "Bearer "+ accessToken)
+	}
 	utils.HeaderModify(&r.Request.Header)
 
 	proxy.ServeHTTP(r.Response.RawWriter(), r.Request)
