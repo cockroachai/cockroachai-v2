@@ -28,6 +28,7 @@ func init() {
 	group.GET("/login", Login)
 	group.POST("/login", LoginPost)
 	group.GET("/auth/logout", AuthLogout)
+	group.ALL("/public-api/referral/invites/*any", NotFound)  //禁用邀请
 	group.POST("/backend-api/accounts/data_export", NotFound) // 禁用导出
 	group.POST("/backend-api/payments/checkout", NotFound)    // 禁用支付
 
