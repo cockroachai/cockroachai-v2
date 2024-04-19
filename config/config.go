@@ -2,7 +2,8 @@ package config
 
 import (
 	"net/url"
-
+	"time"
+	
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -92,11 +93,27 @@ func init() {
 		BuildId = buildId
 	}
 	g.Log().Info(ctx, "BuildId:", BuildId)
+	// 每小时更新一次
+	go func() {
+		for {
+			time.Sleep(time.Hour)
+			build := CheckNewVersion(ctx)
+			if build != "" {
+				BuildId = build
+			}
+			g.Log().Info(ctx, "BuildId:", BuildId)
+			cacheBuildId := CheckVersion(ctx, AssetPrefix)
+			if cacheBuildId != "" {
+				CacheBuildId = cacheBuildId
+			}
+			g.Log().Info(ctx, "CacheBuildId:", CacheBuildId)
+		}
+	}()
 	ProxyClient = g.Client().Proxy(Ja3Proxy.String()).SetBrowserMode(true).SetHeaderMap(g.MapStrStr{
 		"Origin":     "https://chat.openai.com",
 		"Referer":    "https://chat.openai.com/",
 		"Host":       "chat.openai.com",
-		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
 	})
 
 	// 加载session
@@ -155,6 +172,15 @@ func CheckVersion(ctx g.Ctx, assetPrefix string) (CacheBuildId string) {
 		}
 	}
 
+	return
+}
+
+// 检查是否有新版本
+func CheckNewVersion(ctx g.Ctx) (buildId string) {
+	resVar := g.Client().GetVar(ctx, CHATPROXY(ctx)+"/ping")
+	resJson := gjson.New(resVar)
+
+	buildId = resJson.Get("buildId").String()
 	return
 }
 

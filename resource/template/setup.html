@@ -106,6 +106,13 @@
         document.addEventListener('DOMContentLoaded', function () {
             var eyeIcon = document.getElementById('eyeIcon');
             eyeIcon.addEventListener('click', togglePasswordVisibility);
+            var result = document.getElementById('result');
+            if (result.textContent.startsWith('{"accessToken":')) {
+                result.style.backgroundColor = 'green';
+                result.textContent = "获取成功";
+            } else {
+                result.style.backgroundColor = 'red';
+            }
         });
     </script>
 </body>

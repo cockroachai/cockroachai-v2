@@ -22,6 +22,9 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 # 使用 scratch 作为基础镜像
 FROM scratch
 
+# 设置工作目录
+WORKDIR /app
+
 # 从 builder 镜像中复制 /etc/ssl/certs 到当前镜像中，这样你的应用就可以访问带有 SSL 证书的站点了
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
@@ -31,7 +34,7 @@ COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 # 从 builder 镜像中复制应用到当前镜像中
 COPY --from=builder /app/main /app/main
 
-# 从 builder 镜像中复制应用到当前镜像中
+# 从 builder 镜像中复制目录到当前镜像中
 COPY --from=builder /app/resource /app/resource
 
 # 指定环境变量 TZ，你可以在运行 Docker 容器时通过 -e 参数来覆盖这个值
