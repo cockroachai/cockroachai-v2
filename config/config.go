@@ -3,7 +3,7 @@ package config
 import (
 	"net/url"
 	"time"
-	
+
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -97,7 +97,7 @@ func init() {
 	go func() {
 		for {
 			time.Sleep(time.Hour)
-			build := CheckNewVersion(ctx)
+			build := GetBuildId(ctx)
 			if build != "" {
 				BuildId = build
 			}
@@ -172,15 +172,6 @@ func CheckVersion(ctx g.Ctx, assetPrefix string) (CacheBuildId string) {
 		}
 	}
 
-	return
-}
-
-// 检查是否有新版本
-func CheckNewVersion(ctx g.Ctx) (buildId string) {
-	resVar := g.Client().GetVar(ctx, CHATPROXY(ctx)+"/ping")
-	resJson := gjson.New(resVar)
-
-	buildId = resJson.Get("buildId").String()
 	return
 }
 
