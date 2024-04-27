@@ -5,5 +5,4 @@ services:
     ports:
       - "9000:9315" #左侧为暴露的端口
     volumes:
-      - ./config.yaml:/config.yaml
-      - ./resource:/app/resource
+      - ./config:/app/config
