@@ -9,6 +9,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httputil"
+	"strings"
 
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/frame/g"
@@ -22,7 +23,24 @@ func ProxyBackendApi(r *ghttp.Request) {
 		r.Response.Status = 401
 		r.Response.WriteJson(g.Map{"detail": "Unauthorized"})
 	}
+
+	// 屏蔽一些接口
 	path := r.RequestURI
+	if strings.Contains(path, "invite") ||
+		strings.HasPrefix(path, "/backend-api/share/create") ||
+		strings.HasPrefix(path, "/backend-api/shared_conversations") ||
+		(strings.HasPrefix(path, "/backend-api/accounts") && r.Request.Method == "DELETE") ||
+		strings.HasPrefix(path, "/backend-api/aip/p/") ||
+		strings.HasPrefix(path, "/backend-api/gizmo_creator_profile") ||
+		strings.HasPrefix(path, "/backend-api/payments/checkout") ||
+		strings.HasPrefix(path, "/backend-api/payments/customer_portal") ||
+		strings.HasPrefix(path, "/backend-api/user_system_messages") ||
+		strings.HasPrefix(path, "/backend-api/accounts/deactivate") {
+		r.Response.Status = 401
+		r.Response.WriteJson(g.Map{"detail": "你无权进行此操作。"})
+		return
+	}
+
 	// g.Log().Info(ctx, "ProxyBackendApi:", path)
 	proxy := &httputil.ReverseProxy{}
 
@@ -31,7 +49,7 @@ func ProxyBackendApi(r *ghttp.Request) {
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true,
 		},
-		ForceAttemptHTTP2: true,	}
+		ForceAttemptHTTP2: true}
 
 	proxy.Rewrite = func(proxyRequest *httputil.ProxyRequest) {
 		proxyRequest.SetURL(config.OPENAIURL)
