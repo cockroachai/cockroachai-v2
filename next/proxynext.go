@@ -73,8 +73,8 @@ func ProxyNext(r *ghttp.Request) {
 		return nil
 	}
 	header := r.Request.Header
-	header.Set("Origin", "https://chat.openai.com")
-	header.Set("Referer", "https://chat.openai.com/")
+	header.Set("Origin", "https://chatgpt.com")
+	header.Set("Referer", "https://chatgpt.com/")
 	header.Del("Cookie")
 	header.Del("Accept-Encoding")
 	utils.HeaderModify(&r.Request.Header)

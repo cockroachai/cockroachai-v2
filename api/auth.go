@@ -16,22 +16,22 @@ func AuthProviders(r *ghttp.Request) {
 		  "id": "auth0",
 		  "name": "Auth0",
 		  "type": "oauth",
-		  "signinUrl": "https://chat.openai.com/api/auth/signin/auth0",
-		  "callbackUrl": "https://chat.openai.com/api/auth/callback/auth0"
+		  "signinUrl": "https://chatgpt.com/api/auth/signin/auth0",
+		  "callbackUrl": "https://chatgpt.com/api/auth/callback/auth0"
 		},
 		"login-web": {
 		  "id": "login-web",
 		  "name": "Auth0",
 		  "type": "oauth",
-		  "signinUrl": "https://chat.openai.com/api/auth/signin/login-web",
+		  "signinUrl": "https://chatgpt.com/api/auth/signin/login-web",
 		  "callbackUrl": "https://chat.openai.com/api/auth/callback/login-web"
 		},
 		"openai": {
 		  "id": "openai",
 		  "name": "openai",
 		  "type": "oauth",
-		  "signinUrl": "https://chat.openai.com/api/auth/signin/openai",
-		  "callbackUrl": "https://chat.openai.com/api/auth/callback/openai"
+		  "signinUrl": "https://chatgpt.com/api/auth/signin/openai",
+		  "callbackUrl": "https://chatgpt.com/api/auth/callback/openai"
 		}
 	  }`
 	r.Response.WriteJson(gjson.New(jsonStr))
@@ -41,7 +41,7 @@ func AuthProviders(r *ghttp.Request) {
 func AuthCsrf(r *ghttp.Request) {
 	jsonStr := `
 	{
-		"csrfToken": "084e72020630350580584426d7088865eeb0e7c0d8af0ee38931049bae4baa96"
+		"csrfToken": "3820cb28cec61cbb9391cf371a577de08961861482a84ada8e1ea095ff7dd699"
 	  }
 	`
 	r.Response.WriteJson(gjson.New(jsonStr))

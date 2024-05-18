@@ -38,8 +38,8 @@ func ProxyAnno(r *ghttp.Request) {
 		return nil
 	}
 	header := r.Request.Header
-	header.Set("Origin", "https://chat.openai.com")
-	header.Set("Referer", "https://chat.openai.com/")
+	header.Set("Origin", "https://chatgpt.com")
+	header.Set("Referer", "https://chatgpt.com/")
 	utils.HeaderModify(&r.Request.Header)
 
 	proxy.ServeHTTP(r.Response.RawWriter(), r.Request)

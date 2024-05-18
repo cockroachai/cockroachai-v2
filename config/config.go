@@ -24,7 +24,7 @@ var (
 	Gclient      = g.Client()                          // http客户端
 	Ja3Proxy     *url.URL                              // ja3代理
 	ArkoseUrl    = "/v2/"
-	OPENAIURL, _ = url.Parse("https://chat.openai.com")
+	OPENAIURL, _ = url.Parse("https://chatgpt.com")
 
 	envScriptTpl = `
 	<script src="/list.js"></script>
@@ -110,9 +110,9 @@ func init() {
 		}
 	}()
 	ProxyClient = g.Client().Proxy(Ja3Proxy.String()).SetBrowserMode(true).SetHeaderMap(g.MapStrStr{
-		"Origin":     "https://chat.openai.com",
-		"Referer":    "https://chat.openai.com/",
-		"Host":       "chat.openai.com",
+		"Origin":     "https://chatgpt.com",
+		"Referer":    "https://chatgpt.com/",
+		"Host":       "chatgpt.com",
 		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
 	})
 
@@ -198,7 +198,7 @@ func GetBuildId(ctx g.Ctx) string {
 
 // 刷新账号信息
 func RefreshSession(ctx g.Ctx, refreshCookie string) (session *gjson.Json, err error) {
-	res, err := ProxyClient.SetCookie("__Secure-next-auth.session-token", refreshCookie).Get(ctx, "https://chat.openai.com/api/auth/session")
+	res, err := ProxyClient.SetCookie("__Secure-next-auth.session-token", refreshCookie).SetCookie("oai-dm-tgt-c-240329","2024-04-02").Get(ctx, "https://chatgpt.com/api/auth/session")
 	if err != nil {
 		g.Log().Error(ctx, "RefreshUserToken Error: ", err)
 		return
@@ -209,12 +209,10 @@ func RefreshSession(ctx g.Ctx, refreshCookie string) (session *gjson.Json, err e
 		g.Log().Error(ctx, err)
 		return
 	}
-	refreshCookie = res.GetCookie("__Secure-next-auth.session-token")
+	rrefreshCookie := res.GetCookie("__Secure-next-auth.session-token")
 	// g.Log().Info(ctx, "RefreshUserToken", refreshCookie)
-	if refreshCookie == "" {
-		err = gerror.New("无效的refreshCookie")
-		g.Log().Error(ctx, err)
-		return
+	if rrefreshCookie != "" {
+		refreshCookie = rrefreshCookie
 	}
 	session = gjson.New(res.ReadAll())
 	session.Set("refreshCookie", refreshCookie)

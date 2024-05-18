@@ -303,41 +303,7 @@ func Slug(r *ghttp.Request) {
 	}
 	slug := r.GetRouter("slug").String()
 
-	props := `
-  {
-    "props": {
-      "pageProps": {
-        "user": {
-          "id": "user-xyhelper",
-          "name": "admin@closeai.com",
-          "email": "admin@closeai.com",
-          "image": "/avatars.png",
-          "picture": "/avatars.png",
-          "idp": "auth0",
-          "iat": 2699699364,
-          "mfa": false,
-          "groups": []
-        },
-        "serviceStatus": {},
-        "userCountry": "US",
-        "serviceAnnouncement": { "public": {}, "paid": {} },
-        "serverPrimedAllowBrowserStorageValue": true,
-        "canManageBrowserStorage": false,
-        "ageVerificationDeadline": null,
-        "showCookieConsentBanner": false
-      },
-      "__N_SSP": true
-    },
-    "page": "/gpts/editor/[slug]",
-    "query": { "slug": "g-I2KQmH4yZ" },
-    "buildId": "wtXFegAXt6bfbujLr1e7S",
-    "assetPrefix": "",
-    "isFallback": false,
-    "gssp": true,
-    "scriptLoader": []
-  }
-  `
-	propsJson := gjson.New(props)
+	propsJson := gjson.New(Props)
 
 	propsJson.Set("query.slug", slug)
 	propsJson.Set("buildId", config.BuildId)
@@ -359,43 +325,8 @@ func G(r *ghttp.Request) {
 		return
 	}
 	gizmoId := r.GetRouter("gizmoId").String()
-	props := `
-  {
-    "props": {
-      "pageProps": {
-        "kind": "chat_page",
-        "gizmo": null,
-        "user": {
-          "id": "user-xyhelper",
-          "name": "admin@closeai.com",
-          "email": "admin@closeai.com",
-          "image": "/avatars.png",
-          "picture": "/avatars.png",
-          "idp": "auth0",
-          "iat": 2699699364,
-          "mfa": false,
-          "groups": []
-        },
-        "serviceStatus": {},
-        "userCountry": "US",
-        "serviceAnnouncement": { "public": {}, "paid": {} },
-        "serverPrimedAllowBrowserStorageValue": true,
-        "canManageBrowserStorage": false,
-        "ageVerificationDeadline": null,
-        "showCookieConsentBanner": false
-      },
-      "__N_SSP": true
-    },
-    "page": "/g/[gizmoId]",
-    "query": { "gizmoId": "g-I2KQmH4yZ-unix2bj" },
-    "buildId": "wtXFegAXt6bfbujLr1e7S",
-    "assetPrefix": "",
-    "isFallback": false,
-    "gssp": true,
-    "scriptLoader": []
-  }
-  `
-	propsJson := gjson.New(props)
+
+	propsJson := gjson.New(Props)
 	propsJson.Set("query.gizmoId", gizmoId)
 	propsJson.Set("buildId", config.BuildId)
 	propsJson.Set("assetPrefix", config.AssetPrefix)
