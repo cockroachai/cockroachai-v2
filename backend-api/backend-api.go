@@ -31,9 +31,9 @@ func PromptLibrary(r *ghttp.Request) {
 	limit := r.Get("limit").String()
 	offset := r.Get("offset").String()
 	headerMap := g.MapStrStr{
-		"Origin":       "https://chat.openai.com",
-		"Referer":      "https://chat.openai.com/",
-		"Host":         "chat.openai.com",
+		"Origin":       "https://chatgpt.com",
+		"Referer":      "https://chatgpt.com/",
+		"Host":         "chatgpt.com",
 		"User-Agent":   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
 		"OAI-Language": r.Header.Get("OAI-Language"),
 	}
@@ -42,7 +42,7 @@ func PromptLibrary(r *ghttp.Request) {
 		headerMap["Authorization"] = "Bearer " + accessToken
 	}
 	ProxyClient := gclient.New().Proxy(config.Ja3Proxy.String()).SetBrowserMode(true).SetHeaderMap(headerMap)
-	res, err := ProxyClient.Get(ctx, "https://chat.openai.com/backend-api/prompt_library/", g.Map{"limit": limit, "offset": offset})
+	res, err := ProxyClient.Get(ctx, "https://chatgpt.com/backend-api/prompt_library/", g.Map{"limit": limit, "offset": offset})
 	if err != nil {
 		g.Log().Error(ctx, err)
 		r.Response.WriteStatus(500, "")
